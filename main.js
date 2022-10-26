@@ -39,7 +39,7 @@ scene.add(pointLight, ambientLight);
 
 let randomDice = [];
 let randomDiceSpin = [];
-for (let i = 0; i < 200; i++) {
+for (let i = 0; i < 250; i++) {
   randomDice.push(addBgrDice());
   randomDiceSpin.push(new Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(0.03)));
 }
@@ -68,7 +68,20 @@ function addBgrDice(){
   const material = new THREE.MeshStandardMaterial({color: 0XFF6347});
   const die = new THREE.Mesh(geometry,material);
   
-  const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+  const [x,y,z] = Array(3).fill().map((elem, index) => {
+    let ret;
+    if(index == 2){
+      let i = THREE.MathUtils.randInt(0,1);
+      if(i == 0){
+        ret = THREE.MathUtils.randFloat(-50,-11);
+      } else{
+        ret = THREE.MathUtils.randFloat(11,50);
+      }  
+    } else{
+      ret = THREE.MathUtils.randFloatSpread(100);
+    }
+    return ret;
+  });
   
   die.position.set(x,y,z);
   return die;
